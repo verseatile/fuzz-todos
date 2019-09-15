@@ -1,9 +1,10 @@
 import * as React from "react"
+import styled from "styled-components"
 import { todo_reducer } from "../reducers"
-import { init_todos } from "../data/data"
 import uuidv4 from "uuid/v4"
 import Text from './Text'
 import TodoItem from './TodoItem'
+import { GeneralBtn, MainControls } from "../styles"
 
 
 export function TodoList() {
@@ -104,7 +105,9 @@ export function TodoList() {
         })
         // clear the input
         setInputState("")
-        document.getElementById("main-input").value = ""
+        let input = document.getElementById("main-input")
+        input.value = ""
+        input.focus()
     }
 
     const removeTodo = (id) => {
@@ -134,9 +137,10 @@ export function TodoList() {
 
     return (
         <div>
-            <div
+            <MainControls
                 style={{
                     display: "flex",
+                    flexDirection: 'column',
                     margin: "0 auto",
                     justifyContent: "center",
                     alignItems: "center",
@@ -145,35 +149,37 @@ export function TodoList() {
                     background: "#DEDEDE"
                 }}
             >
-                <input
-                    id="main-input"
-                    onChange={e => setInputState(e.target.value)}
-                    style={{ height: 35, width: "80%", fontSize: 26, fontWeight: 300, marginRight: 30 }}
-                />
-                <button
-                    onClick={() => addTodo(inputState)}
-                    style={{
-                        display: "inline",
-                        padding: "0 10px",
-                        border: "none",
-                        height: 20,
-                    }}
-                >
-                    ADD
-                </button>
+                <div>
+                    <input
+                        id="main-input"
+                        onKeyDown={(e) => e.key === "Enter" ? addTodo(e.target.value) : null}
+                        onChange={e => setInputState(e.target.value)}
+                        style={{ height: 35, maxWidth: "320px", width: "100%", fontSize: 26, fontWeight: 300, marginRight: 30 }}
+                    />
+                    <GeneralBtn
+                        onClick={() => addTodo(inputState)}
+                        style={{
+                            display: "inline",
+                        }}
+                    >
+                        ADD
+                    </GeneralBtn>
+                </div>
+                
 
                 {/* filter options */}
-                <div style={{ display: 'block' }}>
-                    <button onClick={() => sortByDueDate()}>Sort by Due Date</button>
-                    <button onClick={() => sortDateAdded()}>Sort by Date Added</button>
-                    <button onClick={() => setFilterState(FILTERS.COMPLETE)}>Filter By Completed</button>
-                    <button onClick={() => setFilterState(FILTERS.INCOMPLETE)}>Filter By Incomplete</button>
-                    <button onClick={() => setFilterState(FILTERS.ALL)}>Show All Items</button>
+                <div style={{ flex: 1, marginTop: 20 }}>
+                    <GeneralBtn onClick={() => sortByDueDate()}>Sort by Due Date</GeneralBtn>
+                    <GeneralBtn onClick={() => sortDateAdded()}>Sort by Date Added</GeneralBtn>
+                    <GeneralBtn onClick={() => setFilterState(FILTERS.COMPLETE)}>Filter By Completed</GeneralBtn>
+                    <GeneralBtn onClick={() => setFilterState(FILTERS.INCOMPLETE)}>Filter By Incomplete</GeneralBtn>
+                    <GeneralBtn onClick={() => setFilterState(FILTERS.ALL)}>Show All Items</GeneralBtn>
 
 
                 </div>
-            </div>
+            </MainControls>
             {renderTodos()}
         </div>
     )
 }
+

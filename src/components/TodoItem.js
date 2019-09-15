@@ -1,7 +1,9 @@
 import React from "react"
 import Text from "./Text"
-import styled from "styled-components"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
+import { TodoText, Todo } from "../styles"
+import { GeneralBtn } from "../styles"
+
 
 // if edit, change the todo text to an input field with that text as its value
 export default function TodoItem ({ todo, remove, completion, dueDate, textEdit }) {
@@ -31,18 +33,23 @@ export default function TodoItem ({ todo, remove, completion, dueDate, textEdit 
                 
             </TodoText>
             {/* <Text style={{ fontSize: 14 }} type="body" family="Roboto" weight={300}>{todo.date_added}</Text> */}
-            <Text style={{ fontSize: 14 }} type="body" family="Roboto" weight={300}>Due: {todo.date_due.month ? `${todo.date_due.month}/${todo.date_due.day}/${todo.date_due.year}` : ""}</Text>
+            <Text style={{ fontSize: 12 }} type="body" family="Roboto" weight={300}>
+                Due: 
+                {todo.date_due.month 
+                ? ` ${todo.date_due.month}/${todo.date_due.day}/${todo.date_due.year}` 
+                : ` ${new Date(todo.date_due).getMonth()}/${new Date(todo.date_due).getDate()}/${new Date(todo.date_due).getFullYear()}`}
+                </Text>
 
             </span>
             ) : (
-                <input style={{ fontSize: 16, width: 250 }} onChange={e => {changeText(e.target.value)}} defaultValue={currentText || todo.task} />
+                <input id={todo.id} style={{ fontSize: 16, width: 250 }} onChange={e => {changeText(e.target.value)}} defaultValue={currentText || todo.task} />
             )}
             
             </span>
-            <button onClick={completion} style={{ }}>COMPLETE</button>
-            <button onClick={() => {toggleModal(!modalOpen) }} style={{ }}>SET DUE DATE</button>
-            <button onClick={() => {changeEdit(!edit); textEdit(currentText || todo.task, todo.id) }} style={{ }}>EDIT</button>
-            <button onClick={remove} style={{ }}>DELETE</button>
+            <GeneralBtn onClick={completion} style={{ }}>COMPLETE</GeneralBtn>
+            <GeneralBtn onClick={() => {toggleModal(!modalOpen) }} style={{ }}>SET DUE DATE</GeneralBtn>
+            <GeneralBtn onClick={(e) => {changeEdit(!edit); textEdit(currentText || todo.task, todo.id); }} style={{ }}>EDIT</GeneralBtn>
+            <GeneralBtn onClick={remove} style={{ }}>DELETE</GeneralBtn>
 
             {modalOpen ? <DatePicker id={todo.id} dueDate={dueDate} toggleModal={toggleModal} /> : null}
         </Todo>
@@ -70,30 +77,11 @@ const DatePicker = ({toggleModal, dueDate, id}) => {
                 <Text type="h2" family="Roboto" align="center">{date}</Text>
 
 
-                <button onClick={() => {dueDate(id, { year, month, day }); toggleModal(false); document.body.style.overflowY = "scroll"}}>Set Due Date</button>
-                <button onClick={() => toggleModal(false)}>Cancel</button>
+                <GeneralBtn onClick={() => {dueDate(id, { year, month, day }); toggleModal(false); document.body.style.overflowY = "scroll"}}>Set Due Date</GeneralBtn>
+                <GeneralBtn onClick={() => toggleModal(false)}>Cancel</GeneralBtn>
             </div>
             
     </div>
     
     
 }
-
-const Todo = styled(motion.div)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #FFF;
-    height: 60px;
-    margin: 20px 5%;
-    padding: 10px 18px;
-    border-radius: 4px;
-
-    -webkit-box-shadow: 0px 9px 12px -5px rgba(133,133,133,0.25);
-    -moz-box-shadow: 0px 9px 12px -5px rgba(133,133,133,0.25);
-    box-shadow: 0px 9px 12px -5px rgba(133,133,133,0.25);
-`
-
-const TodoText = styled(Text)`
-    text-decoration: ${props => props.strikeThrough ? 'line-through' : null};
-`
