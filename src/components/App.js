@@ -2,7 +2,7 @@ import * as React from "react"
 import { motion } from "framer-motion"
 import styled from "styled-components"
 import { Header } from "../components/Header"
-import { TodoList } from "../components/TodoList"
+import TodoList from "../components/TodoList"
 
 
 export default function App() {

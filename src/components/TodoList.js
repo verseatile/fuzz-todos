@@ -1,12 +1,19 @@
 import * as React from "react"
 import { todo_reducer } from "../reducers"
-import { init_todos } from "../data/data"
 import uuidv4 from "uuid/v4"
 import Text from './Text'
 import TodoItem from './TodoItem'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { 
+    ADD_TODO, 
+    REMOVE_TODO, 
+    CHANGE_COMPLETION, 
+    CHANGE_DUE_DATE, 
+    SORT_BY_DUE_DATE, 
+    SORT_DATE_ADDED } from "../actions"
 
-
-export function TodoList() {
+function TodoList() {
     const [todos, dispatch] = React.useReducer(todo_reducer, [])
     const [inputState, setInputState] = React.useState(null)
     const [filterState, setFilterState] = React.useState(0) // use enum or string
@@ -88,39 +95,30 @@ export function TodoList() {
             return
         }
         console.log(todos)
-        dispatch({
-            type: "ADD_TODO",
-            payload: {
-                id: uuidv4(),
-                date_added: new Date().toString(),
-                date_due: new Date().toString(),
-                isComplete: false,
-                task: text,
-            },
-        })
+        dispatch(ADD_TODO(text, uuidv4()))
         // clear the input
         setInputState("")
         document.getElementById("main-input").value = ""
     }
 
     const removeTodo = (id) => {
-        dispatch({type: "REMOVE_TODO", targetId: id})
+        dispatch(REMOVE_TODO(id))
     }
 
     const changeCompletion = (id) => {
-        dispatch({type: "CHANGE_COMPLETION", targetId: id})
+        dispatch(CHANGE_COMPLETION(id))
     }
 
     const changeDueDate = (id, dueDate) => {
-        dispatch({ type: "CHANGE_DUE_DATE", targetId: id, dueDate: dueDate })
+        dispatch(CHANGE_DUE_DATE(id, dueDate))
     }
 
     const sortByDueDate = () => {
-        dispatch({ type: "SORT_DUE_DATE" })
+        dispatch(SORT_BY_DUE_DATE())
     }
 
     const sortDateAdded = () => {
-        dispatch({ type: "SORT_DATE_ADDED" })
+        dispatch(SORT_DATE_ADDED())
     }
     
 
@@ -169,3 +167,21 @@ export function TodoList() {
         </div>
     )
 }
+
+function mapStateToProps(state) {
+    return {
+        todos: state
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ 
+        ADD_TODO, 
+        REMOVE_TODO, 
+        CHANGE_COMPLETION, 
+        CHANGE_DUE_DATE, 
+        SORT_BY_DUE_DATE, 
+        SORT_DATE_ADDED }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
