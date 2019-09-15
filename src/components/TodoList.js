@@ -28,7 +28,8 @@ export function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     )) 
                 case FILTERS.COMPLETE:
                     // render only those that are complete
@@ -38,7 +39,9 @@ export function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
+
                     ))
                 case FILTERS.INCOMPLETE:
                     // render only incomplete
@@ -48,7 +51,8 @@ export function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     ))
                 default:
                     // render all?
@@ -58,11 +62,11 @@ export function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     )) 
             }
 
-            
         }
         else {
             return (
@@ -121,6 +125,10 @@ export function TodoList() {
 
     const sortDateAdded = () => {
         dispatch({ type: "SORT_DATE_ADDED" })
+    }
+
+    const handleTextEdit = (text, id) => {
+        dispatch({ type: "EDIT_TODO", payload: text, targetId: id })
     }
     
 
