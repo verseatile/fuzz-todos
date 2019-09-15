@@ -78,6 +78,7 @@ export const ColorTile = styled.span`
     display: block;
     height: 40px;
     background: ${props => props.color};
+    cursor: pointer;
 `
 
 export const HeaderText = styled(Text)`
