@@ -2,3 +2,5 @@
 a todo application built with React, Styled Components, and Redux (in the redux branch).
 
 master branch contains theming capabilities, while both contain full feature set.
+
+Visit https://dist-lc7f39vby.now.sh to preview the latest build.
