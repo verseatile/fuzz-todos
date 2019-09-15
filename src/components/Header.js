@@ -1,12 +1,14 @@
 import * as React from "react"
 import Text from "./Text"
 import styled from "styled-components"
+import { HeaderText } from "../styles"
+
 
 
 export function Header() {
     return (
         <div style={{ padding: 40 }}>
-            <Text
+            <HeaderText
                 color="#222"
                 size="60px"
                 type="h1"
@@ -15,8 +17,8 @@ export function Header() {
                 align="center"
             >
                 ¡todos!
-            </Text>
-            <Text
+            </HeaderText>
+            <HeaderText
                 color="#222"
                 type="body"
                 family="Roboto"
@@ -24,7 +26,8 @@ export function Header() {
                 align="center"
             >
                 todos for everyone.
-            </Text>
+            </HeaderText>
         </div>
     )
 }
+

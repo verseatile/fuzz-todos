@@ -1,10 +1,10 @@
-import * as React from "react"
+import React from "react"
 import styled from "styled-components"
 import { todo_reducer } from "../reducers"
 import uuidv4 from "uuid/v4"
 import Text from './Text'
 import TodoItem from './TodoItem'
-import { GeneralBtn, MainControls } from "../styles"
+import { GeneralBtn, MainControls, PrimaryInput, HeaderText } from "../styles"
 
 
 export function TodoList() {
@@ -72,8 +72,7 @@ export function TodoList() {
         else {
             return (
                 <div style={{ padding: "120px 40px" }}>
-            <Text
-                color="#222"
+            <HeaderText
                 size="20px"
                 type="h1"
                 family="Roboto"
@@ -81,24 +80,30 @@ export function TodoList() {
                 align="center"
             >
                 Add a todo to get started.
-            </Text>
+            </HeaderText>
         </div>
             )
         }
         
     }
 
+    /* ACTION CREATORS  */
     const addTodo = text => {
         if (!text) {
             return
         }
         console.log(todos)
+        let date = new Date()
         dispatch({
             type: "ADD_TODO",
             payload: {
                 id: uuidv4(),
-                date_added: new Date().toString(),
-                date_due: new Date().toString(),
+                date_added: date.toString(),
+                date_due: {
+                    month: (date.getMonth() + 1).toString(),
+                    day: date.getDate().toString(),
+                    year: date.getFullYear().toString()
+                },
                 isComplete: false,
                 task: text,
             },
@@ -133,28 +138,16 @@ export function TodoList() {
     const handleTextEdit = (text, id) => {
         dispatch({ type: "EDIT_TODO", payload: text, targetId: id })
     }
-    
+    /* END OF ACTION CREATORS  */
 
     return (
         <div>
-            <MainControls
-                style={{
-                    display: "flex",
-                    flexDirection: 'column',
-                    margin: "0 auto",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: 'sticky', 
-                    top: 0,
-                    background: "#DEDEDE"
-                }}
-            >
+            <MainControls>
                 <div>
-                    <input
+                    <PrimaryInput
                         id="main-input"
                         onKeyDown={(e) => e.key === "Enter" ? addTodo(e.target.value) : null}
                         onChange={e => setInputState(e.target.value)}
-                        style={{ height: 35, maxWidth: "320px", width: "100%", fontSize: 26, fontWeight: 300, marginRight: 30 }}
                     />
                     <GeneralBtn
                         onClick={() => addTodo(inputState)}
@@ -174,12 +167,9 @@ export function TodoList() {
                     <GeneralBtn onClick={() => setFilterState(FILTERS.COMPLETE)}>Filter By Completed</GeneralBtn>
                     <GeneralBtn onClick={() => setFilterState(FILTERS.INCOMPLETE)}>Filter By Incomplete</GeneralBtn>
                     <GeneralBtn onClick={() => setFilterState(FILTERS.ALL)}>Show All Items</GeneralBtn>
-
-
                 </div>
             </MainControls>
             {renderTodos()}
         </div>
     )
 }
-
