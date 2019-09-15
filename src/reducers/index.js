@@ -18,14 +18,21 @@ export const todo_reducer = function(state, action) {
             // ]
 
         case "EDIT_TODO":
-            let idx = state.findIndex((item) => item.id == action.targetId)  
-            state[idx].isComplete = !state[idx].isComplete 
+            let idx = state.findIndex((item) => item.id == action.targetId) 
+            if (idx < 0) {
+                return state
+            }
+            console.log("idx = ", idx)
+            state[idx].task = action.payload 
             return [
                 ...state
             ]
 
         case "CHANGE_COMPLETION":
-            idx = state.findIndex((item) => item.id == action.targetId)  
+            idx = state.findIndex((item) => item.id == action.targetId) 
+            if (idx < 0) {
+                return state
+            } 
             state[idx].isComplete = !state[idx].isComplete 
             return [
                 ...state
@@ -34,8 +41,9 @@ export const todo_reducer = function(state, action) {
         case "CHANGE_DUE_DATE":
             // dueDate is in action.dueDate
             idx = state.findIndex((item) => item.id == action.targetId)  
-            // let date = new Date()
-            // state[idx].date_due = `${date.getMonth()}/${(date.getDate() + 4).toString()}/${date.getFullYear()}`
+            if (idx < 0) {
+                return state
+            }
             state[idx].date_due = action.dueDate
             console.log("DUE DATE: ", action.dueDate)
             return [

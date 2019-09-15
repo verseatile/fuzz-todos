@@ -35,7 +35,8 @@ function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     )) 
                 case FILTERS.COMPLETE:
                     // render only those that are complete
@@ -45,7 +46,8 @@ function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     ))
                 case FILTERS.INCOMPLETE:
                     // render only incomplete
@@ -55,7 +57,8 @@ function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     ))
                 default:
                     // render all?
@@ -65,7 +68,8 @@ function TodoList() {
                         todo={todo} 
                         remove={() => removeTodo(todo.id)}
                         completion={() => changeCompletion(todo.id)}
-                        dueDate={changeDueDate} />
+                        dueDate={changeDueDate}
+                        textEdit={handleTextEdit} />
                     )) 
             }
 
@@ -119,6 +123,10 @@ function TodoList() {
 
     const sortDateAdded = () => {
         dispatch(SORT_DATE_ADDED())
+    }
+
+    const handleTextEdit = (text, id) => {
+        dispatch({ type: "EDIT_TODO", payload: text, targetId: id })
     }
     
 

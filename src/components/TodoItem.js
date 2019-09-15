@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { motion, AnimatePresence } from "framer-motion"
 
 // if edit, change the todo text to an input field with that text as its value
-export default function TodoItem ({ todo, remove, completion, dueDate }) {
+export default function TodoItem ({ todo, remove, completion, dueDate, textEdit }) {
     const [edit, changeEdit] = React.useState(false)
     const [currentText, changeText] = React.useState("")
     const [modalOpen, toggleModal] = React.useState(false)
@@ -30,7 +30,7 @@ export default function TodoItem ({ todo, remove, completion, dueDate }) {
                 {currentText || todo.task}
                 
             </TodoText>
-            <Text style={{ fontSize: 14 }} type="body" family="Roboto" weight={300}>{todo.date_added}</Text>
+            {/* <Text style={{ fontSize: 14 }} type="body" family="Roboto" weight={300}>{todo.date_added}</Text> */}
             <Text style={{ fontSize: 14 }} type="body" family="Roboto" weight={300}>Due: {todo.date_due.month ? `${todo.date_due.month}/${todo.date_due.day}/${todo.date_due.year}` : ""}</Text>
 
             </span>
@@ -41,7 +41,8 @@ export default function TodoItem ({ todo, remove, completion, dueDate }) {
             </span>
             <button onClick={completion} style={{ }}>COMPLETE</button>
             <button onClick={() => {toggleModal(!modalOpen) }} style={{ }}>SET DUE DATE</button>
-            <button onClick={() => changeEdit(!edit)} style={{ }}>EDIT</button>
+            {/* <button onClick={() => changeEdit(!edit)} style={{ }}>EDIT</button> */}
+            <button onClick={() => {changeEdit(!edit); textEdit(currentText || todo.task, todo.id) }} style={{ }}>EDIT</button>
             <button onClick={remove} style={{ }}>DELETE</button>
 
             {modalOpen ? <DatePicker id={todo.id} dueDate={dueDate} toggleModal={toggleModal} /> : null}
