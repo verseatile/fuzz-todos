@@ -51,7 +51,7 @@ const DatePicker = ({toggleModal, dueDate, id}) => {
 
 
                 {/* <GeneralBtn onClick={() => {dueDate(id, { year, month, day }); toggleModal(false); document.body.style.overflowY = "scroll"}}>Set Due Date</GeneralBtn> */}
-                <GeneralBtn onClick={() => {dueDate(id, date); toggleModal(false); document.body.style.overflowY = "scroll"}}>Set Due Date</GeneralBtn>
+                <GeneralBtn onClick={() => {dueDate(id, date || 1); toggleModal(false); document.body.style.overflowY = "scroll"}}>Set Due Date</GeneralBtn>
                 <GeneralBtn onClick={() => {toggleModal(false); document.body.style.overflowY = "scroll"}}>Cancel</GeneralBtn>
             </Container>
     </motion.div>
