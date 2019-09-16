@@ -89,6 +89,16 @@ export const ItemControls = styled(motion.div)`
 
 `
 
+export const Container = styled(motion.div)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 50%;
+    background: ${props => props.theme.cardColor || "#FFF"};;
+`
+
 // global themes
 export const bulmaish = {
     background: "#50E3C2",
