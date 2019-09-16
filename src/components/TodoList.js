@@ -93,21 +93,18 @@ export function TodoList() {
             return
         }
         console.log(todos)
-        let date = new Date()
+        let date = Date.now()
         dispatch({
             type: "ADD_TODO",
             payload: {
                 id: uuidv4(),
-                date_added: date.toString(),
-                date_due: {
-                    month: (date.getMonth() + 1).toString(),
-                    day: date.getDate().toString(),
-                    year: date.getFullYear().toString()
-                },
+                date_added: date,
+                date_due: 1, // default is one day from now
                 isComplete: false,
                 task: text,
             },
         })
+        console.log("DATE: ", date)
         // clear the input
         setInputState("")
         let input = document.getElementById("main-input")
