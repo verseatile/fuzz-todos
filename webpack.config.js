@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: './index.html', 
@@ -29,7 +30,12 @@ const config = {
     //   },
     ]
   },
-  plugins: [HtmlWebpackPluginConfig],
+  plugins: [
+    HtmlWebpackPluginConfig, 
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+    })
+  ],
   devServer: {
     contentBase: path.join(__dirname, "src"),
     compress: true,
